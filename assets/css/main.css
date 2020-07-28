@@ -1008,7 +1008,7 @@ input, select, textarea {
 				table.alt tbody tr td:first-child {
 					border-left-width: 0px;
 					border-bottom-width: .01rem;
-					border-right-width: .2rem;
+					border-right-width: .01rem;
 				}
 
 			table.alt tbody tr:first-child td {
