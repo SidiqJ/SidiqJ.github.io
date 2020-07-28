@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+
+<html>
+
+	<head>
+		<title>Sidiq Kaddo</title>
+		<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/konpa/devicon@master/devicon.min.css">
+
+	</head>
+
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+		<div id="wrapper">
+			<!-- Main -->
+			<div id="main">
+				<!-- Work -->
+				<article id="work" style="width: 70rem;">
+					<h2 class="major">Physics Engine Interactive Animation
+						<i class="devicon-javascript-plain colored" style="font-size: 3rem;"></i>
+						<i class="devicon-cplusplus-plain-wordmark colored"
+							style="font-size: 3rem; color:dodgerblue;"></i> <i
+							class="devicon-html5-plain-wordmark colored" style="font-size: 3rem;"></i>
+						<img src="images/WebGL-icon.svg" style="width: 5rem">
+
+					</h2>
+					<p>This simple physics engine represents particles as spheres that are procedurally generated and
+						imparted with a random size, position, color, and velocity. <br>
+						More particles are created by interacting with the display and their physics are updated with
+						each frame to show their motion, and collisions with the environment.
+					<ul style="margin-left: 2em;">
+						<li>The new position is calculated using the current velocity and Euler integration</li>
+						<li>The velocity is updated using the acceleration and Euler integration, with drag</li>
+						<li>The acceleration is updated using the force of gravity</li>
+					</ul>
+					</p>
+					<p>
+						Checkout out the project's code on github: <a
+							href="https://github.com/SidiqJ/UIUC/tree/master/CS%20418%20-%20Interactive%20Computer%20Graphics/MP3%20-%20Environment%20Mapping"
+							target="_blank"><i class="devicon-github-plain-wordmark" style="font-size: 2rem;"></i></a>
+					</p>
+
+					<hr />
+					<p style="margin-left: 15rem;">
+						LEFT MOUSE CLICK TO GENERATE
+						<input type="button" id="reset" value="Reset" onclick="Reset = true" style="margin-left: 5rem;">
+					</p>
+
+					<body onload="startup();">
+						<canvas
+							style="display:block; padding-left:0; padding-right:0; margin-left:auto; margin-right: auto;"
+							id="myGLCanvas" width="900" height="500" onmousedown="WhichButton(event)"></canvas>
+					</body>
+
+
+				</article>
+
+			</div>
+
+			<!-- BG -->
+			<div id="bg"></div>
+
+			<!-- WebGl -->
+			<script id="shader-gouraud-phong-vs" type="x-shader/x-vertex">
+			attribute vec3 aVertexNormal;
+			attribute vec3 aVertexPosition;
+			
+			 uniform mat4 uMVMatrix;
+			 uniform mat4 uPMatrix;
+			 uniform mat3 uNMatrix;
+			 uniform vec3 uLightPosition;
+			 uniform vec3 uAmbientLightColor;
+			 uniform vec3 uDiffuseLightColor;
+			 uniform vec3 uSpecularLightColor;
+			 uniform vec3 uAmbientMaterialColor;
+			 uniform vec3 uDiffuseMaterialColor;
+			 uniform vec3 uSpecularMaterialColor;
+			 
+			 uniform float uShininess;
+			 
+			 varying vec4 vColor;
+		 
+			 void main(void) {
+			 
+			 // Get the vertex position in eye coordinates
+			 vec4 vertexPositionEye4 = uMVMatrix * vec4(aVertexPosition, 1.0);
+			 vec3 vertexPositionEye3 = vertexPositionEye4.xyz / vertexPositionEye4.w;
+		   
+			 // Calculate the vector (l) to the light source
+			 vec3 vectorToLightSource = normalize(uLightPosition - vertexPositionEye3);
+			 
+			 // Transform the normal (n) to eye coordinates
+			 vec3 normalEye = normalize(uNMatrix * aVertexNormal);
+			 
+			 // Calculate n dot l for diffuse lighting
+			 float diffuseLightWeightning = max(dot(normalEye, 
+											 vectorToLightSource), 0.0);
+												
+			 // Calculate the reflection vector (r) that is needed for specular light
+			 vec3 reflectionVector = normalize(reflect(-vectorToLightSource, 
+													  normalEye));
+			 
+			 // The camera in eye coordinates is located in the origin and is pointing
+			 // along the negative z-axis. Calculate viewVector (v) 
+			 // in eye coordinates as:
+			 // (0.0, 0.0, 0.0) - vertexPositionEye3
+			 vec3 viewVectorEye = -normalize(vertexPositionEye3);
+			 
+			 float rdotv = max(dot(reflectionVector, viewVectorEye), 0.0);
+			 
+			 float specularLightWeightning = pow(rdotv, uShininess);
+		 
+			 // Sum up all three reflection components and send to the fragment shader
+			 vColor = vec4(((uAmbientLightColor*uAmbientMaterialColor)
+						 + (uDiffuseLightColor*uDiffuseMaterialColor) * diffuseLightWeightning
+						 + (uSpecularLightColor*uSpecularMaterialColor) * specularLightWeightning),1.0);
+			 
+			  gl_Position = uPMatrix*uMVMatrix*vec4(aVertexPosition, 1.0);
+				 
+			 }
+		 </script>
+			<script id="shader-gouraud-phong-fs" type="x-shader/x-fragment">
+		 precision mediump float;
+		 varying vec4 vColor;
+		 void main(void) {
+				 gl_FragColor = vColor;
+		  }
+		 </script>
+			<script src="assets/balls/gl-matrix-min.js"></script>
+			<script src="assets/balls/webgl-utils.js"></script>
+			<script src="assets/balls/Modeling.js"></script>
+			<script src="assets/balls/MP4.js"></script>
+			</head>
+
+			<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+	</body>
+
+</html>

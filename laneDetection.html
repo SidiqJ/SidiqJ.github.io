@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+
+<html>
+
+	<head>
+		<title>Sidiq Kaddo</title>
+		<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/konpa/devicon@master/devicon.min.css">
+
+	</head>
+
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+		<div id="wrapper">
+			<!-- Main -->
+			<div id="main">
+				<!-- Work -->
+				<article id="work" style="width: 70rem;">
+					<h2 class="major">Lane Detection Module
+						<img src="images/ros-icon.png" style="height: 2.5rem; background-color: white;">
+						<i class="devicon-python-plain-wordmark colored" style="font-size: 3rem;"></i>
+						<img src="images/opencv-icon.png" style="width: 2.5rem;"></h2>
+					<p>Camera-based lane detection module. The module will take a video stream in a format that is used
+						in autonomous systems as input, and it will produce annotated video with lane area. We will
+						split
+						the video into frames, and process it as an image in ROS(Robot Operating System) </p>
+					The image frame goes through the following processing procedure:
+					<ol style="margin-left: 2em;">
+						<li>Gradient threshold processing will detect interesting features (e.g: lanes)
+							in the frame and output a binary image (white & black)</li>
+
+						<li>Color threshold processing will detect lanes
+							in the frame by extracting white and yellow pixels (common lane marking colors in the US)
+						</li>
+
+						<li>Perspective transformation to brid's eye view, since the distance of pixels on the
+							image will be proportional to the actual distance thus more useful for controlling
+							the vehicle </li>
+
+						<li>Lane fitting by calculating where pixels are most dense after seperating the lane pixels
+							from the background</li>
+					</ol>
+					<p>
+						Checkout out the project's code on github: <a
+							href="https://github.com/SidiqJ/UIUC/tree/master/CS%20418%20-%20Interactive%20Computer%20Graphics/MP3%20-%20Environment%20Mapping"
+							target="_blank"><i class="devicon-github-plain-wordmark" style="font-size: 2rem;"></i></a>
+					</p>
+
+					<hr />
+					<div style="text-align: center;">
+						<iframe width="640" height="480" src="https://www.youtube-nocookie.com/embed/1JBT_JOBF0U"
+							frameborder="0"
+							allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen></iframe>
+					</div>
+
+				</article>
+
+			</div>
+
+			<!-- BG -->
+			<div id="bg"></div>
+
+			<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+	</body>
+
+</html>
