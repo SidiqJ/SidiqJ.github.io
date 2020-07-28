@@ -1000,14 +1000,14 @@ input, select, textarea {
 				border-left-width: 0;
 				border-top-width: 0;
 				border-right-width: 0cm;
-				border-bottom-width: 0rem;	
+				border-bottom-width: .01rem;	
 				text-align: center;
 				padding-bottom: 0cm;
 			}
 
 				table.alt tbody tr td:first-child {
 					border-left-width: 0px;
-					border-bottom-width: 0rem;
+					border-bottom-width: .01rem;
 					border-right-width: .2rem;
 				}
 
